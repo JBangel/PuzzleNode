@@ -24,9 +24,12 @@ class Rates
 
   def [](key)
     skey = key.to_sym
+    return 1.0 if skey == :USD
     return values[skey] if values.has_key? skey
 
     values[skey] = find_conversion skey, :USD
+    puts "Generated Rate (:#{skey} -> :USD) = #{values[skey]}"
+    values[skey]
   end
 
   def to_h
@@ -34,7 +37,7 @@ class Rates
   end
 
   def add_record from, to, conversion
-    @basedata << { :from => from.to_sym, :to => to.to_sym, :conversion => BigDecimal.new(conversion, 0) }
+    @basedata << { :from => from.to_sym, :to => to.to_sym, :conversion => conversion.to_f }
   end
 
   private
@@ -43,8 +46,6 @@ class Rates
   attr_reader   :basedata
 
   def find_conversion fkey, tkey, not_from = []
-    return 1.0 if fkey == tkey
-
     fr = basedata.find { |bdr| bdr[:from] == fkey && bdr[:to] == tkey }
     if fr
       return fr.fetch(:conversion)
