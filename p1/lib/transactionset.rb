@@ -5,7 +5,6 @@ class TransactionSet
     ts = self.new()
 
     CSV.foreach(filename, :headers => true) do |row|
-      p row
       store = row["store"]
       sku = row["sku"]
       amount = row["amount"]
