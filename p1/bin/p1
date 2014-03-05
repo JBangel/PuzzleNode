@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+
+lib = File.expand_path('../../lib', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+
+require 'sales'
+require 'transactionset'
+require 'rates'
+
+ratesf = ARGV[0]
+transf = ARGV[1]
+
+results = Sales.new(Rates.open(ratesf), TransactionSet.open(transf)).total_for('DM1182')
+
+File.open('output.txt', 'w') do |f|
+  f.write "#{results}\n"
+end
+

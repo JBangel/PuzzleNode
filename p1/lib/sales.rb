@@ -4,7 +4,7 @@ class Sales
   attr_reader :rates, :transactions
 
   def initialize(rates, transactions)
-    @rates = Hash[rates]
+    @rates = rates.to_h
     @transactions = Array([transactions]).flatten
   end
 
