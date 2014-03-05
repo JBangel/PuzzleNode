@@ -4,15 +4,15 @@ class TransactionSet
   def self.open(filename)
     ts = self.new()
 
-    CSV.read(filename, :headers => true) do |row|
-      store = row[:store]
-      sku = row[:sku]
-      amount = row[:amount]
+    CSV.foreach(filename, :headers => true) do |row|
+      p row
+      store = row["store"]
+      sku = row["sku"]
+      amount = row["amount"]
       cost, currency = split_cost amount
       ts.add_record store, sku, cost, currency
     end
 
-    ts.add_record 'Fake Inc', 'AB123', '25.30', 'USD'
     ts.data
   end
 
