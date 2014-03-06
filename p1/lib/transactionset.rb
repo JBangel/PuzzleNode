@@ -24,15 +24,16 @@ class TransactionSet
 
   attr_reader :data
 
-  def initialize
-    @data = []
+  def initialize data
+    @data = data || []
   end
 
   def add_record store, sku, cost, currency
-    @data << {:store    => store,
-              :sku      => sku,
-              :cost     => cost,
-              :currency => currency 
+    new_record =  {:store    => store,
+                   :sku      => sku,
+                   :cost     => cost,
+                   :currency => currency 
     }
+    TransactionSet.new @data + new_record
   end
 end
